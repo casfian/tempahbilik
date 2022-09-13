@@ -37,7 +37,7 @@ class _KalendarTempahanState extends State<KalendarTempahan> {
   void initState() {
     super.initState();
     getTempahan();
-      setState(() {});
+    setState(() {});
   }
 
   @override
@@ -50,6 +50,9 @@ class _KalendarTempahanState extends State<KalendarTempahan> {
         view: CalendarView.month,
         initialDisplayDate: DateTime(2022, 9, 13, 9, 0, 0),
         dataSource: events,
+        monthViewSettings: const MonthViewSettings(
+          showAgenda: true,
+        ),
       ),
     );
   }

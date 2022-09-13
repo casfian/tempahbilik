@@ -69,19 +69,21 @@ class _DetailsState extends State<Details> {
               //Button Tempahan
               ElevatedButton(
                   onPressed: () async {
+                    bool isAllDay = true;
+
                     //code utk booking
                     AlertDialog alert = AlertDialog(
                       title: const Text('Borang Tempahan'),
                       content: SizedBox(
                         width: 250,
-                        height: 250,
+                        height: 300,
                         child: Column(
                           children: [
                             TextField(
                                 controller: tempahannameController,
                                 decoration: const InputDecoration(
-                                    labelText: 'Tajuk',
-                                    border: OutlineInputBorder())),
+                                  labelText: 'Tajuk',
+                                )),
                             const SizedBox(
                               height: 8,
                             ),
@@ -118,7 +120,7 @@ class _DetailsState extends State<Details> {
                             DateTimeField(
                               controller: tamatTempahanController,
                               decoration: const InputDecoration(
-                                  labelText: 'TamatTempahan',
+                                  labelText: 'Tamat',
                                   prefixIcon: Icon(Icons.time_to_leave)),
                               format: format,
                               onShowPicker: (context, currentValue) async {
@@ -139,14 +141,39 @@ class _DetailsState extends State<Details> {
                                 }
                               },
                             ),
+
+                            Row(
+                              children: [
+                                const Text('Seharian'),
+                                Switch(
+                                  value: isAllDay,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isAllDay = value;
+                                      debugPrint(isAllDay.toString());
+                                    });
+                                  },
+                                  activeTrackColor: Colors.lightGreenAccent,
+                                  activeColor: Colors.green,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text('Kod Warna bilik: '),
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: widget.passBilik.warna,
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                       actions: [
                         ElevatedButton(
                             onPressed: () async {
-                              
-     
                               DateTime startTempahan =
                                   DateFormat('yyyy-MM-dd hh:mm')
                                       .parse(mulaTempahanController.text);
@@ -161,7 +188,7 @@ class _DetailsState extends State<Details> {
                                   startTempahan,
                                   endTempahan,
                                   const Color(0xFF0F8644),
-                                  true));
+                                  isAllDay));
                               setState(() {});
 
                               //Next
@@ -170,20 +197,21 @@ class _DetailsState extends State<Details> {
                               //boleh Add Tempahan ke Firebase
                               try {
                                 //code
-                                await firestore.collection('tempahan').doc().set({
+                                await firestore
+                                    .collection('tempahan')
+                                    .doc()
+                                    .set({
                                   'name': tempahannameController.text,
                                   'mula': mulaTempahanController.text,
                                   'tamat': tamatTempahanController.text,
                                   'bilik': widget.passBilik.nama,
                                   'status': 'baru',
-                                });
+                                }).then((value) => Navigator.pop(context));
                                 debugPrint('Add tempahan data to Firebase');
                               } catch (e) {
                                 debugPrint(e.toString());
                               }
                               //---
-                              
-                              Navigator.pop(context);
                             },
                             child: const Text('OK')),
                         ElevatedButton(
@@ -213,9 +241,15 @@ class _DetailsState extends State<Details> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
 
-              SfCalendar(
-                view: viewtempahan,
-                dataSource: TempahanDataSource(_getDataSource()),
+              SizedBox(
+                height: 400,
+                child: SfCalendar(
+                  view: viewtempahan,
+                  dataSource: TempahanDataSource(_getDataSource()),
+                  monthViewSettings: const MonthViewSettings(
+                    showAgenda: true,
+                  ),
+                ),
               ),
             ],
           ),

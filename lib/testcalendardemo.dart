@@ -10,7 +10,7 @@ class TestCalendarDemo extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Test Calendar Demo'),
         ),
-        body: Container(
+        body: SizedBox(
           width: 300,
           height: 300,
           child: SfCalendar(

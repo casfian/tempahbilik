@@ -14,12 +14,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Bilik> bilik = [
-    Bilik('Bilik A', 10, 'bilik_A.jpg'),
-    Bilik('Bilik B', 15, 'bilik_B.jpg'),
-    Bilik('Bilik C', 100, 'bilik_C.jpg'),
-    Bilik('Bilik D', 30, 'bilik_D.jpg'),
-    Bilik('Bilik E', 50, 'bilik_E.jpg'),
-    Bilik('Bilik F', 50, 'bilik_F.jpg'),
+    Bilik('Bilik A', 10, 'bilik_A.jpg', Colors.blue),
+    Bilik('Bilik B', 15, 'bilik_B.jpg', Colors.green),
+    Bilik('Bilik C', 100, 'bilik_C.jpg', Colors.yellow),
+    Bilik('Bilik D', 30, 'bilik_D.jpg', Colors.pink),
+    Bilik('Bilik E', 50, 'bilik_E.jpg', Colors.red),
+    Bilik('Bilik F', 50, 'bilik_F.jpg', Colors.grey),
   ];
 
   @override
@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
               title: const Text('Kalendar Tempahan'),
               onTap: () {
                 MaterialPageRoute route = MaterialPageRoute(
-                    builder: (context) => KalendarTempahan());
+                    builder: (context) => const KalendarTempahan());
                 Navigator.push(context, route);
               },
             ),
