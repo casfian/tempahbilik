@@ -1,8 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tempahbilik/tempahan.dart';
+import 'package:intl/intl.dart';
+import 'package:tempahbilik/tempahandatasource.dart';
 
-class KalendarTempahan extends StatelessWidget {
+class KalendarTempahan extends StatefulWidget {
   const KalendarTempahan({super.key});
+
+  @override
+  State<KalendarTempahan> createState() => _KalendarTempahanState();
+}
+
+class _KalendarTempahanState extends State<KalendarTempahan> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  TempahanDataSource? events;
+
+  Future<void> getTempahan() async {
+    var snapshots = await firestore.collection("tempahan").get();
+
+    List<Tempahan> list = snapshots.docs
+        .map((e) => Tempahan(
+            e.data()['name'],
+            DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['mula']),
+            DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['tamat']),
+            Colors.blue,
+            false))
+        .toList();
+    setState(() {
+      events = TempahanDataSource(list);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getTempahan();
+      setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +48,8 @@ class KalendarTempahan extends StatelessWidget {
       ),
       body: SfCalendar(
         view: CalendarView.month,
+        initialDisplayDate: DateTime(2022, 9, 13, 9, 0, 0),
+        dataSource: events,
       ),
     );
   }
