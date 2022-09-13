@@ -53,6 +53,8 @@ class _DetailsState extends State<Details> {
     final mulaTempahanController = TextEditingController();
     final tamatTempahanController = TextEditingController();
 
+    var viewtempahan = CalendarView.month;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details'),
@@ -64,6 +66,8 @@ class _DetailsState extends State<Details> {
               Image.asset('images/${widget.passBilik.photo}'),
               Text(widget.passBilik.nama),
               Text(widget.passBilik.kapasiti.toString()),
+
+              //Button Tempahan
               ElevatedButton(
                   onPressed: () async {
                     //code utk booking
@@ -107,7 +111,6 @@ class _DetailsState extends State<Details> {
                                 }
                               },
                             ),
-
                             const SizedBox(
                               height: 8,
                             ),
@@ -199,15 +202,19 @@ class _DetailsState extends State<Details> {
                         });
                   },
                   child: const Text('Buat Tempahan utk Bilik Ini')),
+
+              //end button Tempahan
+
               const SizedBox(
                 height: 20,
               ),
               const Text(
-                'Tempahan Minggu ini: ',
+                'Tempahan Month ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
+              
               SfCalendar(
-                view: CalendarView.workWeek,
+                view: viewtempahan,
                 dataSource: TempahanDataSource(_getDataSource()),
               ),
             ],

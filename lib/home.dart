@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tempahbilik/bilik.dart';
 import 'package:tempahbilik/details.dart';
+import 'package:tempahbilik/kalendartempahan.dart';
+import 'package:tempahbilik/profile.dart';
+import 'package:tempahbilik/tempahansaya.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -24,6 +27,47 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                MaterialPageRoute route =
+                    MaterialPageRoute(builder: (context) => const Home());
+                Navigator.push(context, route);
+              },
+            ),
+            ListTile(
+              title: const Text('Kalendar Tempahan'),
+              onTap: () {
+                MaterialPageRoute route = MaterialPageRoute(
+                    builder: (context) => const KalendarTempahan());
+                Navigator.push(context, route);
+              },
+            ),
+            ListTile(
+              title: const Text('Tempahan Saya'),
+              onTap: () {
+                MaterialPageRoute route = MaterialPageRoute(
+                    builder: (context) => const TempahanSaya());
+                Navigator.push(context, route);
+              },
+            ),
+            ListTile(
+              title: const Text('Profile'),
+              onTap: () {
+                MaterialPageRoute route =
+                    MaterialPageRoute(builder: (context) => const Profile());
+                Navigator.push(context, route);
+              },
+            ),
+            const ListTile(
+              title: Text('Logout'),
+            )
+          ],
+        ),
       ),
       body: GridView.count(
         crossAxisSpacing: 1,
