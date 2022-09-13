@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:tempahbilik/tempahan.dart';
 import 'package:tempahbilik/tempahandatasource.dart';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield_new/datetime_picker_formfield_new.dart';
 
 class Details extends StatefulWidget {
   const Details({super.key, required this.passBilik});
@@ -22,17 +24,16 @@ class _DetailsState extends State<Details> {
   //tempahan
   //------------------------------------------
   List<Tempahan> _getDataSource() {
-    
-    final DateTime today = DateTime.now();
-    final DateTime startTime =
-        DateTime(today.year, today.month, today.day, 9, 0, 0);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
+    // final DateTime today = DateTime.now();
+    // final DateTime startTime =
+    //     DateTime(today.year, today.month, today.day, 9, 0, 0);
+    // final DateTime endTime = startTime.add(const Duration(hours: 2));
 
-    print(startTime);
-    print(endTime);
+    // print(startTime);
+    // print(endTime);
 
-    meetings.add(Tempahan(
-        'Conference', startTime, endTime, const Color(0xFF0F8644), false));
+    // meetings.add(Tempahan(
+    //     'Conference', startTime, endTime, const Color(0xFF0F8644), false));
     return meetings;
   }
   //------------------------------------------
@@ -47,6 +48,11 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+    final format = DateFormat("yyyy-MM-dd HH:mm:ss");
+
+    final mulaTempahanController = TextEditingController();
+    final tamatTempahanController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details'),
@@ -64,15 +70,73 @@ class _DetailsState extends State<Details> {
                     AlertDialog alert = AlertDialog(
                       title: const Text('Borang Tempahan'),
                       content: SizedBox(
-                        width: 200,
-                        height: 200,
+                        width: 250,
+                        height: 250,
                         child: Column(
                           children: [
                             TextField(
-                              controller: tempahannameController,
+                                controller: tempahannameController,
+                                decoration: const InputDecoration(
+                                    labelText: 'Tajuk',
+                                    border: OutlineInputBorder())),
+                            const SizedBox(
+                              height: 8,
                             ),
-                            TextField(),
-                            TextField(),
+                            //startDate & time
+                            DateTimeField(
+                              controller: mulaTempahanController,
+                              decoration: const InputDecoration(
+                                  labelText: 'Mula',
+                                  prefixIcon: Icon(Icons.date_range)),
+                              format: format,
+                              onShowPicker: (context, currentValue) async {
+                                final date = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(1900),
+                                    initialDate: currentValue ?? DateTime.now(),
+                                    lastDate: DateTime(2100));
+                                if (date != null) {
+                                  final time = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.fromDateTime(
+                                        currentValue ?? DateTime.now()),
+                                  );
+                                  return DateTimeField.combine(date, time);
+                                } else {
+                                  return currentValue;
+                                }
+                              },
+                            ),
+
+                            const SizedBox(
+                              height: 8,
+                            ),
+
+                            //endDate & Time
+                            DateTimeField(
+                              controller: tamatTempahanController,
+                              decoration: const InputDecoration(
+                                  labelText: 'TamatTempahan',
+                                  prefixIcon: Icon(Icons.time_to_leave)),
+                              format: format,
+                              onShowPicker: (context, currentValue) async {
+                                final date = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(1900),
+                                    initialDate: currentValue ?? DateTime.now(),
+                                    lastDate: DateTime(2100));
+                                if (date != null) {
+                                  final time = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.fromDateTime(
+                                        currentValue ?? DateTime.now()),
+                                  );
+                                  return DateTimeField.combine(date, time);
+                                } else {
+                                  return currentValue;
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -93,19 +157,29 @@ class _DetailsState extends State<Details> {
                               //   debugPrint(e.toString());
                               // }
                               //---
-
-                              DateTime startTempahan = DateTime(2022, 09, 15, 9, 0, 0);
-                              DateTime endTempahan = DateTime(2022, 09, 15, 18, 0, 0);
+                              debugPrint(mulaTempahanController.text);
+                              debugPrint(tamatTempahanController.text);
+                              debugPrint('After convert');
+                              DateTime startTempahan =
+                                  DateFormat('yyyy-MM-dd hh:mm')
+                                      .parse(mulaTempahanController.text);
+                              DateTime endTempahan =
+                                  DateFormat('yyyy-MM-dd hh:mm')
+                                      .parse(tamatTempahanController.text);
+                              debugPrint(startTempahan.toString());
+                              debugPrint(endTempahan.toString());
 
                               meetings.add(Tempahan(
                                   tempahannameController.text,
                                   startTempahan,
                                   endTempahan,
                                   const Color(0xFF0F8644),
-                                  false));
-                                  setState(() {
-                                    
-                                  });
+                                  true));
+                              setState(() {});
+
+                              //Next
+                              //code hantar ke Firebase pulak
+
                               Navigator.pop(context);
                             },
                             child: const Text('OK')),
@@ -133,7 +207,7 @@ class _DetailsState extends State<Details> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SfCalendar(
-                view: CalendarView.week,
+                view: CalendarView.workWeek,
                 dataSource: TempahanDataSource(_getDataSource()),
               ),
             ],
