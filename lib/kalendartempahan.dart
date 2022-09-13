@@ -25,7 +25,7 @@ class _KalendarTempahanState extends State<KalendarTempahan> {
             e.data()['name'],
             DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['mula']),
             DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['tamat']),
-            Colors.blue,
+            Color(int.parse(e.data()['warna'])),
             false))
         .toList();
     setState(() {

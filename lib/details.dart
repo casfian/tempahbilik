@@ -40,6 +40,8 @@ class _DetailsState extends State<Details> {
 
   final tempahannameController = TextEditingController();
 
+  bool isAllDay = false;
+
   // final DateTime today2 = DateTime.now();
   //   final DateTime startTempahan =
   //       DateTime(today2.year, today2.month, today2.day, 9, 0, 0);
@@ -69,8 +71,7 @@ class _DetailsState extends State<Details> {
               //Button Tempahan
               ElevatedButton(
                   onPressed: () async {
-                    bool isAllDay = true;
-
+                    
                     //code utk booking
                     AlertDialog alert = AlertDialog(
                       title: const Text('Borang Tempahan'),
@@ -187,7 +188,7 @@ class _DetailsState extends State<Details> {
                                   tempahannameController.text,
                                   startTempahan,
                                   endTempahan,
-                                  const Color(0xFF0F8644),
+                                  widget.passBilik.warna!,
                                   isAllDay));
                               setState(() {});
 
@@ -205,6 +206,7 @@ class _DetailsState extends State<Details> {
                                   'mula': mulaTempahanController.text,
                                   'tamat': tamatTempahanController.text,
                                   'bilik': widget.passBilik.nama,
+                                  'warna': widget.passBilik.warna!.value.toString(),
                                   'status': 'baru',
                                 }).then((value) => Navigator.pop(context));
                                 debugPrint('Add tempahan data to Firebase');
