@@ -24,16 +24,15 @@ class _DetailsState extends State<Details> {
   //tempahan
   //------------------------------------------
   List<Tempahan> _getDataSource() {
+    //if you want initial data in calendar, can use this:
     // final DateTime today = DateTime.now();
     // final DateTime startTime =
     //     DateTime(today.year, today.month, today.day, 9, 0, 0);
     // final DateTime endTime = startTime.add(const Duration(hours: 2));
 
-    // print(startTime);
-    // print(endTime);
-
     // meetings.add(Tempahan(
     //     'Conference', startTime, endTime, const Color(0xFF0F8644), false));
+
     return meetings;
   }
   //------------------------------------------
@@ -48,7 +47,7 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    final format = DateFormat("yyyy-MM-dd HH:mm:ss");
+    final format = DateFormat("yyyy-MM-dd HH:mm");
 
     final mulaTempahanController = TextEditingController();
     final tamatTempahanController = TextEditingController();
@@ -145,24 +144,9 @@ class _DetailsState extends State<Details> {
                       ),
                       actions: [
                         ElevatedButton(
-                            onPressed: () {
-                              //code
-                              //boleh Add Tempahan ke Firebase
-                              // try {
-                              //   //code
-                              //   await firestore.collection('tempahan').doc().set({
-                              //     'name': widget.passBilik.nama,
-                              //     'kapasiti': widget.passBilik.kapasiti.toString(),
-                              //     'status': 'baru',
-                              //   });
-                              //   debugPrint('Add tempahan data to Firebase');
-                              // } catch (e) {
-                              //   debugPrint(e.toString());
-                              // }
-                              //---
-                              debugPrint(mulaTempahanController.text);
-                              debugPrint(tamatTempahanController.text);
-                              debugPrint('After convert');
+                            onPressed: () async {
+                              
+     
                               DateTime startTempahan =
                                   DateFormat('yyyy-MM-dd hh:mm')
                                       .parse(mulaTempahanController.text);
@@ -182,7 +166,23 @@ class _DetailsState extends State<Details> {
 
                               //Next
                               //code hantar ke Firebase pulak
-
+                              //code
+                              //boleh Add Tempahan ke Firebase
+                              try {
+                                //code
+                                await firestore.collection('tempahan').doc().set({
+                                  'name': tempahannameController.text,
+                                  'mula': mulaTempahanController.text,
+                                  'tamat': tamatTempahanController.text,
+                                  'bilik': widget.passBilik.nama,
+                                  'status': 'baru',
+                                });
+                                debugPrint('Add tempahan data to Firebase');
+                              } catch (e) {
+                                debugPrint(e.toString());
+                              }
+                              //---
+                              
                               Navigator.pop(context);
                             },
                             child: const Text('OK')),
@@ -212,7 +212,7 @@ class _DetailsState extends State<Details> {
                 'Tempahan Month ',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              
+
               SfCalendar(
                 view: viewtempahan,
                 dataSource: TempahanDataSource(_getDataSource()),
