@@ -18,7 +18,7 @@ class _KalendarTempahanState extends State<KalendarTempahan> {
   TempahanDataSource? events;
 
   Future<void> getTempahan() async {
-    var snapshots = await firestore.collection("tempahan").get();
+    var snapshots = await firestore.collection("tempahan").where('status', isEqualTo: 'lulus').get();
 
     List<Tempahan> list = snapshots.docs
         .map((e) => Tempahan(

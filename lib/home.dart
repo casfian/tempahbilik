@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
               title: const Text('Profile'),
               onTap: () {
                 MaterialPageRoute route =
-                    MaterialPageRoute(builder: (context) => const Profile());
+                    MaterialPageRoute(builder: (context) => const ProfileCheck());
                 Navigator.push(context, route);
               },
             ),

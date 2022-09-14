@@ -7,10 +7,12 @@ import 'package:tempahbilik/tempahandatasource.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield_new.dart';
 
-class Details extends StatefulWidget {
-  const Details({super.key, required this.passBilik});
+//authenticate dulu
 
-  final Bilik passBilik;
+class Details extends StatefulWidget {
+  const Details({super.key, this.passBilik});
+
+  final Bilik? passBilik;
 
   @override
   State<Details> createState() => _DetailsState();
@@ -64,113 +66,126 @@ class _DetailsState extends State<Details> {
         child: Center(
           child: Column(
             children: [
-              Image.asset('images/${widget.passBilik.photo}'),
-              Text(widget.passBilik.nama),
-              Text(widget.passBilik.kapasiti.toString()),
+              Image.asset('images/${widget.passBilik!.photo}'),
+              Text(widget.passBilik!.nama),
+              Text(widget.passBilik!.kapasiti.toString()),
 
               //Button Tempahan
               ElevatedButton(
                   onPressed: () async {
-                    
                     //code utk booking
                     AlertDialog alert = AlertDialog(
                       title: const Text('Borang Tempahan'),
-                      content: SizedBox(
-                        width: 250,
-                        height: 300,
-                        child: Column(
-                          children: [
-                            TextField(
-                                controller: tempahannameController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Tajuk',
-                                )),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            //startDate & time
-                            DateTimeField(
-                              controller: mulaTempahanController,
-                              decoration: const InputDecoration(
-                                  labelText: 'Mula',
-                                  prefixIcon: Icon(Icons.date_range)),
-                              format: format,
-                              onShowPicker: (context, currentValue) async {
-                                final date = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1900),
-                                    initialDate: currentValue ?? DateTime.now(),
-                                    lastDate: DateTime(2100));
-                                if (date != null) {
-                                  final time = await showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay.fromDateTime(
-                                        currentValue ?? DateTime.now()),
-                                  );
-                                  return DateTimeField.combine(date, time);
-                                } else {
-                                  return currentValue;
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
 
-                            //endDate & Time
-                            DateTimeField(
-                              controller: tamatTempahanController,
-                              decoration: const InputDecoration(
-                                  labelText: 'Tamat',
-                                  prefixIcon: Icon(Icons.time_to_leave)),
-                              format: format,
-                              onShowPicker: (context, currentValue) async {
-                                final date = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1900),
-                                    initialDate: currentValue ?? DateTime.now(),
-                                    lastDate: DateTime(2100));
-                                if (date != null) {
-                                  final time = await showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay.fromDateTime(
-                                        currentValue ?? DateTime.now()),
-                                  );
-                                  return DateTimeField.combine(date, time);
-                                } else {
-                                  return currentValue;
-                                }
-                              },
-                            ),
+                      //  for Switch to work, wap the content with 
+                      //  StatefulBuilder( 
+                      //    builder: (context, StateSetter setState) {
+                      //          return widget;
+                      //    }
+                      //  )
 
-                            Row(
+                      content: StatefulBuilder(
+                        builder: (context, StateSetter setState) {
+                          return SizedBox(
+                            width: 250,
+                            height: 300,
+                            child: Column(
                               children: [
-                                const Text('Seharian'),
-                                Switch(
-                                  value: isAllDay,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isAllDay = value;
-                                      debugPrint(isAllDay.toString());
-                                    });
+                                TextField(
+                                    controller: tempahannameController,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Tajuk',
+                                    )),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                //startDate & time
+                                DateTimeField(
+                                  controller: mulaTempahanController,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Mula',
+                                      prefixIcon: Icon(Icons.date_range)),
+                                  format: format,
+                                  onShowPicker: (context, currentValue) async {
+                                    final date = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime(1900),
+                                        initialDate:
+                                            currentValue ?? DateTime.now(),
+                                        lastDate: DateTime(2100));
+                                    if (date != null) {
+                                      final time = await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.fromDateTime(
+                                            currentValue ?? DateTime.now()),
+                                      );
+                                      return DateTimeField.combine(date, time);
+                                    } else {
+                                      return currentValue;
+                                    }
                                   },
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Colors.green,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+
+                                //endDate & Time
+                                DateTimeField(
+                                  controller: tamatTempahanController,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Tamat',
+                                      prefixIcon: Icon(Icons.time_to_leave)),
+                                  format: format,
+                                  onShowPicker: (context, currentValue) async {
+                                    final date = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime(1900),
+                                        initialDate:
+                                            currentValue ?? DateTime.now(),
+                                        lastDate: DateTime(2100));
+                                    if (date != null) {
+                                      final time = await showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.fromDateTime(
+                                            currentValue ?? DateTime.now()),
+                                      );
+                                      return DateTimeField.combine(date, time);
+                                    } else {
+                                      return currentValue;
+                                    }
+                                  },
+                                ),
+
+                                Row(
+                                  children: [
+                                    const Text('Seharian'),
+                                    Switch(
+                                      value: isAllDay,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isAllDay = value;
+                                          debugPrint(isAllDay.toString());
+                                        });
+                                      },
+                                      activeTrackColor: Colors.lightGreenAccent,
+                                      activeColor: Colors.green,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text('Kod Warna bilik: '),
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      color: widget.passBilik!.warna,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                const Text('Kod Warna bilik: '),
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  color: widget.passBilik.warna,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                       actions: [
                         ElevatedButton(
@@ -184,13 +199,14 @@ class _DetailsState extends State<Details> {
                               debugPrint(startTempahan.toString());
                               debugPrint(endTempahan.toString());
 
-                              meetings.add(Tempahan(
-                                  tempahannameController.text,
-                                  startTempahan,
-                                  endTempahan,
-                                  widget.passBilik.warna!,
-                                  isAllDay));
-                              setState(() {});
+                              setState(() {
+                                meetings.add(Tempahan(
+                                    tempahannameController.text,
+                                    startTempahan,
+                                    endTempahan,
+                                    widget.passBilik!.warna!,
+                                    isAllDay));
+                              });
 
                               //Next
                               //code hantar ke Firebase pulak
@@ -205,8 +221,9 @@ class _DetailsState extends State<Details> {
                                   'name': tempahannameController.text,
                                   'mula': mulaTempahanController.text,
                                   'tamat': tamatTempahanController.text,
-                                  'bilik': widget.passBilik.nama,
-                                  'warna': widget.passBilik.warna!.value.toString(),
+                                  'bilik': widget.passBilik!.nama,
+                                  'warna':
+                                      widget.passBilik!.warna!.value.toString(),
                                   'status': 'baru',
                                 }).then((value) => Navigator.pop(context));
                                 debugPrint('Add tempahan data to Firebase');
