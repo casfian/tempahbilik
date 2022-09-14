@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 //tambah ne
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tempahbilik/authentication.dart';
 import 'package:tempahbilik/home.dart';
 
 //utk Authenticate
@@ -24,10 +25,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      debugShowCheckedModeBanner: false,
-      home: Home(),
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationProvider>(
+          create: (_) => AuthenticationProvider(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<AuthenticationProvider>().authState,
+          initialData: null,
+        ),
+      ],
+      child: const MaterialApp(
+        title: 'Tempahan Bilik',
+        debugShowCheckedModeBanner: false,
+        home: Home(),
+      ),
     );
   }
 }
