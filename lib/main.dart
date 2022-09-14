@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 //tambah ne
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tempahbilik/authenticate.dart';
 import 'package:tempahbilik/authentication.dart';
 import 'package:tempahbilik/home.dart';
 
@@ -38,25 +39,11 @@ class MyApp extends StatelessWidget {
       child: const MaterialApp(
         title: 'Tempahan Bilik',
         debugShowCheckedModeBanner: false,
-        home: Home(),
+        home: Authenticate(
+          returnClass: Home(),
+        ),
       ),
     );
   }
 }
 
-//class ne utk check dia dah login atau tak
-class Authenticate extends StatelessWidget {
-   const Authenticate({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User?>();
-
-    // kalau user ada (user bukan kosong aka null) maka maksudnya dah login
-    if (firebaseUser != null) {
-      return Home(); //dan kita suruh dia gi page Home
-    }
-    // kalau tak suruh dia login
-    return Login();
-  }
-}
