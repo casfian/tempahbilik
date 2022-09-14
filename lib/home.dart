@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tempahbilik/authentication.dart';
 import 'package:tempahbilik/bilik.dart';
 import 'package:tempahbilik/details.dart';
 import 'package:tempahbilik/kalendartempahan.dart';
 import 'package:tempahbilik/profile.dart';
 import 'package:tempahbilik/tempahansaya.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -51,20 +53,24 @@ class _HomeState extends State<Home> {
               title: const Text('Tempahan Saya'),
               onTap: () {
                 MaterialPageRoute route = MaterialPageRoute(
-                    builder: (context) => const TempahanSaya());
+                    builder: (context) => TempahanSaya());
                 Navigator.push(context, route);
               },
             ),
             ListTile(
               title: const Text('Profile'),
               onTap: () {
-                MaterialPageRoute route =
-                    MaterialPageRoute(builder: (context) => const ProfileCheck());
+                MaterialPageRoute route = MaterialPageRoute(
+                    builder: (context) => const ProfileCheck());
                 Navigator.push(context, route);
               },
             ),
-            const ListTile(
-              title: Text('Logout'),
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () {
+                //code
+                context.read<AuthenticationProvider>().signOut();
+              },
             )
           ],
         ),

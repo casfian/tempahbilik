@@ -5,9 +5,9 @@ import 'package:tempahbilik/login.dart';
 
 //class ne utk check dia dah login atau tak
 class Authenticate extends StatefulWidget {
-  const Authenticate({super.key, required this.returnClass});
+  Authenticate({super.key, required this.returnClass});
 
-  final Widget returnClass;
+  dynamic returnClass;
 
   @override
   State<Authenticate> createState() => _AuthenticateState();

@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           initialData: null,
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Tempahan Bilik',
         debugShowCheckedModeBanner: false,
         home: Authenticate(

@@ -7,8 +7,8 @@ class ProfileCheck extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Authenticate(returnClass: Profile()),
+    return Scaffold(
+      body: Authenticate(returnClass: const Profile()),
     ) ;
   }
 }

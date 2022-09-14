@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tempahbilik/authenticate.dart';
 import 'package:tempahbilik/bilik.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -8,6 +11,16 @@ import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield_new.dart';
 
 //authenticate dulu
+class DetailCheck extends StatelessWidget {
+  const DetailCheck({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Authenticate(
+      returnClass: Details,
+    );
+  }
+}
 
 class Details extends StatefulWidget {
   const Details({super.key, this.passBilik});
@@ -23,23 +36,46 @@ class _DetailsState extends State<Details> {
 
   final List<Tempahan> meetings = <Tempahan>[];
 
-  //tempahan
+  //tempahan lama
   //------------------------------------------
-  List<Tempahan> _getDataSource() {
-    
-    //if you want initial data in calendar, can use this:
-    // final DateTime today = DateTime.now();
-    // final DateTime startTime =
-    //     DateTime(today.year, today.month, today.day, 9, 0, 0);
-    // final DateTime endTime = startTime.add(const Duration(hours: 2));
+  // List<Tempahan> _getDataSource() {
+  //   //if you want initial data in calendar, can use this:
+  //   // final DateTime today = DateTime.now();
+  //   // final DateTime startTime =
+  //   //     DateTime(today.year, today.month, today.day, 9, 0, 0);
+  //   // final DateTime endTime = startTime.add(const Duration(hours: 2));
 
-    // meetings.add(Tempahan(
-    //     'Conference', startTime, endTime, const Color(0xFF0F8644), false));
+  //   // meetings.add(Tempahan(
+  //   //     'Conference', startTime, endTime, const Color(0xFF0F8644), false));
 
-    return meetings;
-  }
+  //   return meetings;
+  // }
   //------------------------------------------
   //end tempahan
+
+  //datasource dari firebase
+  TempahanDataSource? events;
+
+  Future<void> getTempahan() async {
+    var snapshots = await firestore
+        .collection("tempahan")
+        .where('status', isEqualTo: 'lulus')
+        .where('bilik', isEqualTo: widget.passBilik!.nama)
+        .get();
+
+    List<Tempahan> list = snapshots.docs
+        .map((e) => Tempahan(
+            e.data()['name'],
+            DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['mula']),
+            DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['tamat']),
+            Color(int.parse(e.data()['warna'])),
+            false))
+        .toList();
+    setState(() {
+      events = TempahanDataSource(list);
+    });
+  }
+  //----end firebase datasource
 
   final tempahannameController = TextEditingController();
 
@@ -51,7 +87,19 @@ class _DetailsState extends State<Details> {
   //   final DateTime endTempahan = startTempahan.add(const Duration(hours: 2));
 
   @override
+  void initState() {
+    super.initState();
+    getTempahan();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    //firebase user
+    final firebaseUser = context.watch<User?>();
+
+    print(firebaseUser!.uid);
+
     final format = DateFormat("yyyy-MM-dd HH:mm");
 
     final mulaTempahanController = TextEditingController();
@@ -78,8 +126,8 @@ class _DetailsState extends State<Details> {
                     AlertDialog alert = AlertDialog(
                       title: const Text('Borang Tempahan'),
 
-                      //  for Switch to work, wap the content with 
-                      //  StatefulBuilder( 
+                      //  for Switch to work, wap the content with
+                      //  StatefulBuilder(
                       //    builder: (context, StateSetter setState) {
                       //          return widget;
                       //    }
@@ -226,6 +274,7 @@ class _DetailsState extends State<Details> {
                                   'warna':
                                       widget.passBilik!.warna!.value.toString(),
                                   'status': 'baru',
+                                  'uid': firebaseUser.uid,
                                 }).then((value) => Navigator.pop(context));
                                 debugPrint('Add tempahan data to Firebase');
                               } catch (e) {
@@ -265,7 +314,8 @@ class _DetailsState extends State<Details> {
                 height: 400,
                 child: SfCalendar(
                   view: viewtempahan,
-                  dataSource: TempahanDataSource(_getDataSource()),
+                  //dataSource: TempahanDataSource(_getDataSource()),
+                  dataSource: events,
                   monthViewSettings: const MonthViewSettings(
                     showAgenda: true,
                   ),
