@@ -11,7 +11,6 @@ class TempahanSaya extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final firebaseUser = context.watch<User?>();
 
     return Scaffold(
@@ -19,8 +18,10 @@ class TempahanSaya extends StatelessWidget {
         title: const Text('Tempahan Saya'),
       ),
       body: FutureBuilder(
-          
-          future: firestore.collection('tempahan').where('uid', isEqualTo: firebaseUser!.uid).get(),
+          future: firestore
+              .collection('tempahan')
+              .where('uid', isEqualTo: firebaseUser!.uid)
+              .get(),
           builder: (context, snapshot) {
             //check error here
             if (snapshot.hasError) {
@@ -34,8 +35,16 @@ class TempahanSaya extends StatelessWidget {
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
-                return  ListTile(
+                return ListTile(
+                  leading: Text(data['status'].toString()),
                   title: Text(data['name'].toString()),
+
+                  trailing: TextButton(
+                    onPressed: () {
+                      //code
+                    },
+                    child: const Text('Update'),
+                  ),
                 );
               }).toList(),
             );

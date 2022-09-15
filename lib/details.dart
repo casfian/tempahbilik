@@ -36,23 +36,6 @@ class _DetailsState extends State<Details> {
 
   final List<Tempahan> meetings = <Tempahan>[];
 
-  //tempahan lama
-  //------------------------------------------
-  // List<Tempahan> _getDataSource() {
-  //   //if you want initial data in calendar, can use this:
-  //   // final DateTime today = DateTime.now();
-  //   // final DateTime startTime =
-  //   //     DateTime(today.year, today.month, today.day, 9, 0, 0);
-  //   // final DateTime endTime = startTime.add(const Duration(hours: 2));
-
-  //   // meetings.add(Tempahan(
-  //   //     'Conference', startTime, endTime, const Color(0xFF0F8644), false));
-
-  //   return meetings;
-  // }
-  //------------------------------------------
-  //end tempahan
-
   //datasource dari firebase
   TempahanDataSource? events;
 
@@ -69,6 +52,7 @@ class _DetailsState extends State<Details> {
             DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['mula']),
             DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['tamat']),
             Color(int.parse(e.data()['warna'])),
+            e.data()['photo'],
             false))
         .toList();
     setState(() {
@@ -80,11 +64,6 @@ class _DetailsState extends State<Details> {
   final tempahannameController = TextEditingController();
 
   bool isAllDay = false;
-
-  // final DateTime today2 = DateTime.now();
-  //   final DateTime startTempahan =
-  //       DateTime(today2.year, today2.month, today2.day, 9, 0, 0);
-  //   final DateTime endTempahan = startTempahan.add(const Duration(hours: 2));
 
   @override
   void initState() {
@@ -98,7 +77,7 @@ class _DetailsState extends State<Details> {
     //firebase user
     final firebaseUser = context.watch<User?>();
 
-    print(firebaseUser!.uid);
+    debugPrint(firebaseUser!.uid);
 
     final format = DateFormat("yyyy-MM-dd HH:mm");
 
@@ -254,6 +233,7 @@ class _DetailsState extends State<Details> {
                                     startTempahan,
                                     endTempahan,
                                     widget.passBilik!.warna!,
+                                    widget.passBilik!.photo,
                                     isAllDay));
                               });
 
