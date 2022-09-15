@@ -10,7 +10,6 @@ import 'package:tempahbilik/home.dart';
 //utk Authenticate
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:tempahbilik/login.dart';
 
 void main() async {
   //tambah ne
@@ -40,10 +39,9 @@ class MyApp extends StatelessWidget {
         title: 'Tempahan Bilik',
         debugShowCheckedModeBanner: false,
         home: Authenticate(
-          returnClass: Home(),
+          returnClass: const Home(),
         ),
       ),
     );
   }
 }
-

@@ -4,16 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:tempahbilik/login.dart';
 
 //class ne utk check dia dah login atau tak
-class Authenticate extends StatefulWidget {
+class Authenticate extends StatelessWidget {
   Authenticate({super.key, required this.returnClass});
 
   dynamic returnClass;
 
-  @override
-  State<Authenticate> createState() => _AuthenticateState();
-}
-
-class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
