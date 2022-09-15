@@ -34,6 +34,20 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  //supaya ada gambar kat tempahan saya
+  List gambarBilik = [
+    'default',
+    'bilik_A',
+    'bilik_B',
+    'bilik_C',
+    'bilik_D',
+    'bilik_E',
+    'bilik_F'
+  ];
+
+  String? photobilik;
+  //---
+
   final List<Tempahan> meetings = <Tempahan>[];
 
   //datasource dari firebase
@@ -52,6 +66,7 @@ class _DetailsState extends State<Details> {
             DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['mula']),
             DateFormat('yyyy-MM-dd HH:mm').parse(e.data()['tamat']),
             Color(int.parse(e.data()['warna'])),
+            e.data()['nobilik'].toString(),
             e.data()['photo'],
             false))
         .toList();
@@ -70,6 +85,29 @@ class _DetailsState extends State<Details> {
     super.initState();
     getTempahan();
     setState(() {});
+    print('Bilik Selected: ${widget.passBilik!.nobilik}');
+    print('PhotoBilik --->');
+    //Untuk gambar supaya tak null bila add tempahan
+    if (widget.passBilik!.nobilik == 1) {
+      photobilik = gambarBilik[0];
+      debugPrint(photobilik);
+    } else if (widget.passBilik!.nobilik == 2) {
+      photobilik = gambarBilik[1];
+      debugPrint(photobilik);
+    } else if (widget.passBilik!.nobilik == 3) {
+      photobilik = gambarBilik[2];
+      debugPrint(photobilik);
+    } else if (widget.passBilik!.nobilik == 4) {
+      photobilik = gambarBilik[3];
+      debugPrint(photobilik);
+    } else if (widget.passBilik!.nobilik == 5) {
+      photobilik = gambarBilik[4];
+      debugPrint(photobilik);
+    } else if (widget.passBilik!.nobilik == 6) {
+      photobilik = gambarBilik[5];
+      debugPrint(photobilik);
+    }
+    //---
   }
 
   @override
@@ -233,7 +271,8 @@ class _DetailsState extends State<Details> {
                                     startTempahan,
                                     endTempahan,
                                     widget.passBilik!.warna!,
-                                    widget.passBilik!.photo,
+                                    photobilik,
+                                    widget.passBilik!.nobilik,
                                     isAllDay));
                               });
 
@@ -251,9 +290,11 @@ class _DetailsState extends State<Details> {
                                   'mula': mulaTempahanController.text,
                                   'tamat': tamatTempahanController.text,
                                   'bilik': widget.passBilik!.nama,
+                                  'noBilik': widget.passBilik!.nobilik,
                                   'warna':
                                       widget.passBilik!.warna!.value.toString(),
                                   'status': 'baru',
+                                  'photo': photobilik,
                                   'uid': firebaseUser.uid,
                                 }).then((value) => Navigator.pop(context));
                                 debugPrint('Add tempahan data to Firebase');
@@ -285,9 +326,23 @@ class _DetailsState extends State<Details> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Tempahan Month ',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Tempahan Bulanan',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        //refresh
+                        getTempahan();
+                        setState(() {
+                          //refresh
+                        });
+                      },
+                      icon: const Icon(Icons.refresh))
+                ],
               ),
 
               SizedBox(

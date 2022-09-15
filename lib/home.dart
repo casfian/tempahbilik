@@ -16,12 +16,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Bilik> bilik = [
-    Bilik('Bilik A', 10, 'bilik_A.jpg', Colors.blue),
-    Bilik('Bilik B', 15, 'bilik_B.jpg', Colors.green),
-    Bilik('Bilik C', 100, 'bilik_C.jpg', Colors.yellow),
-    Bilik('Bilik D', 30, 'bilik_D.jpg', Colors.pink),
-    Bilik('Bilik E', 50, 'bilik_E.jpg', Colors.red),
-    Bilik('Bilik F', 50, 'bilik_F.jpg', Colors.grey),
+    Bilik('Bilik A', 1, 10, 'bilik_A.jpg', Colors.blue),
+    Bilik('Bilik B', 2, 15, 'bilik_B.jpg', Colors.green),
+    Bilik('Bilik C', 3, 100, 'bilik_C.jpg', Colors.yellow),
+    Bilik('Bilik D', 4, 30, 'bilik_D.jpg', Colors.pink),
+    Bilik('Bilik E', 5, 50, 'bilik_E.jpg', Colors.red),
+    Bilik('Bilik F', 6, 50, 'bilik_F.jpg', Colors.grey),
   ];
 
   @override

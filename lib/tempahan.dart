@@ -5,9 +5,10 @@ class Tempahan {
   DateTime from;
   DateTime to;
   Color background;
+  int nobilik;
   String? photo;
   bool isAllDay;
 
   //constructor
-  Tempahan(this.eventName, this.from, this.to, this.background, this.photo, this.isAllDay);
+  Tempahan(this.eventName, this.from, this.to, this.background, this.photo, this.nobilik,   this.isAllDay);
 }

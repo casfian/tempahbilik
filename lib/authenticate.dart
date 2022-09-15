@@ -15,7 +15,7 @@ class Authenticate extends StatelessWidget {
 
     // kalau user ada (user bukan kosong aka null) maka maksudnya dah login
     if (firebaseUser != null) {
-      return widget.returnClass; //dan kita suruh dia gi page Home
+      return returnClass; //dan kita suruh dia gi page Home
     }
     // kalau tak suruh dia login
     return Login();
