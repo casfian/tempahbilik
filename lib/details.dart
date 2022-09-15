@@ -85,26 +85,26 @@ class _DetailsState extends State<Details> {
     super.initState();
     getTempahan();
     setState(() {});
-    print('Bilik Selected: ${widget.passBilik!.nobilik}');
-    print('PhotoBilik --->');
+    debugPrint('Bilik Selected: ${widget.passBilik!.nobilik}');
+    debugPrint('PhotoBilik --->');
     //Untuk gambar supaya tak null bila add tempahan
     if (widget.passBilik!.nobilik == '1') {
-      photobilik = gambarBilik[0];
-      debugPrint(photobilik);
-    } else if (widget.passBilik!.nobilik == '2') {
       photobilik = gambarBilik[1];
       debugPrint(photobilik);
-    } else if (widget.passBilik!.nobilik == '3') {
+    } else if (widget.passBilik!.nobilik == '2') {
       photobilik = gambarBilik[2];
       debugPrint(photobilik);
-    } else if (widget.passBilik!.nobilik == '4') {
+    } else if (widget.passBilik!.nobilik == '3') {
       photobilik = gambarBilik[3];
       debugPrint(photobilik);
-    } else if (widget.passBilik!.nobilik == '5') {
+    } else if (widget.passBilik!.nobilik == '4') {
       photobilik = gambarBilik[4];
       debugPrint(photobilik);
-    } else if (widget.passBilik!.nobilik == '6') {
+    } else if (widget.passBilik!.nobilik == '5') {
       photobilik = gambarBilik[5];
+      debugPrint(photobilik);
+    } else if (widget.passBilik!.nobilik == '6') {
+      photobilik = gambarBilik[6];
       debugPrint(photobilik);
     }
     //---
