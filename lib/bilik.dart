@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Bilik {
   String nama;
-  int nobilik;
+  String nobilik;
   int kapasiti;
   String photo;
   Color? warna;

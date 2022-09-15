@@ -5,7 +5,7 @@ class Tempahan {
   DateTime from;
   DateTime to;
   Color background;
-  int nobilik;
+  String? nobilik;
   String? photo;
   bool isAllDay;
 

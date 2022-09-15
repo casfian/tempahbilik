@@ -16,12 +16,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Bilik> bilik = [
-    Bilik('Bilik A', 1, 10, 'bilik_A.jpg', Colors.blue),
-    Bilik('Bilik B', 2, 15, 'bilik_B.jpg', Colors.green),
-    Bilik('Bilik C', 3, 100, 'bilik_C.jpg', Colors.yellow),
-    Bilik('Bilik D', 4, 30, 'bilik_D.jpg', Colors.pink),
-    Bilik('Bilik E', 5, 50, 'bilik_E.jpg', Colors.red),
-    Bilik('Bilik F', 6, 50, 'bilik_F.jpg', Colors.grey),
+    Bilik('Bilik A', '1', 10, 'bilik_A.jpg', Colors.blue),
+    Bilik('Bilik B', '2', 15, 'bilik_B.jpg', Colors.green),
+    Bilik('Bilik C', '3', 100, 'bilik_C.jpg', Colors.yellow),
+    Bilik('Bilik D', '4', 30, 'bilik_D.jpg', Colors.pink),
+    Bilik('Bilik E', '5', 50, 'bilik_E.jpg', Colors.red),
+    Bilik('Bilik F', '6', 50, 'bilik_F.jpg', Colors.grey),
   ];
 
   @override
@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
               title: const Text('Tempahan Saya'),
               onTap: () {
                 MaterialPageRoute route = MaterialPageRoute(
-                    builder: (context) => TempahanSaya());
+                    builder: (context) => const TempahanSaya());
                 Navigator.push(context, route);
               },
             ),

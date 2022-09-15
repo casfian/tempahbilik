@@ -57,10 +57,11 @@ class _TempahanSayaState extends State<TempahanSaya> {
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
                     child: ListTile(
-                      leading: Image.asset('images/${data['photo'].toString()}.jpg'),
+                      leading:
+                          Image.asset('images/${data['photo'].toString()}.jpg'),
                       //leading: Text(data['photo'].toString()),
                       title: Text(data['name'].toString()),
-                      subtitle: Text('${data['mula']} hingga ${data['tamat']}'),
+                      subtitle: Text('Status: ${data['status']},\n${data['mula']} hingga ${data['tamat']}'),
                       trailing: PopupMenuButton<String>(
                         icon: const Icon(Icons.settings),
                         itemBuilder: (BuildContext context) =>
